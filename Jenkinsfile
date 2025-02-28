@@ -41,5 +41,24 @@ pipeline{
             }
         }
     }
+
+    post{
+        success{
+            script{
+                emailext from: 'singhvaibhav032@gmail.com',
+                to: 'singhvaibhav032@gmail.com',
+                body: 'Build Success',
+                subject: 'Build Success'
+            }
+        }
+        failure{
+             script{
+                emailext from: 'singhvaibhav032@gmail.com',
+                to: 'singhvaibhav032@gmail.com',
+                body: 'Build Failed',
+                subject: 'Build Failed'
+        }
+    }
+}
     
 }
