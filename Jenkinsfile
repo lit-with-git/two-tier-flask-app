@@ -62,9 +62,5 @@ pipeline {
                 subject: 'Build Failed'
             }
         }
-        always {
-    cleanWs()
-       sh "find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +"
-        }
     }
 }
