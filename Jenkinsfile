@@ -44,16 +44,6 @@ pipeline {
                 sh "docker compose up -d --build flask-app"
             }
         }
-        stage("Workspace Cleanup") {
-            steps {
-                always {
-                    cleanWs()
-                    dir("${env.WORKSPACE}@tmp") {
-                        deleteDir()
-                    }
-                }
-            }
-        }
     }
 
     post {
@@ -73,5 +63,11 @@ pipeline {
                 subject: 'Build Failed'
             }
         }
-    }
-}
+                always {
+                    cleanWs()
+                    dir("${env.WORKSPACE}*") {
+                        deleteDir()
+                    }
+                }
+            }
+        }
