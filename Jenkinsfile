@@ -64,6 +64,12 @@ pipeline{
                 subject: 'Build Failed'
         }
     }
-}
-    
+        
+  always {
+    cleanWs()
+    dir("${env.WORKSPACE}@tmp") {
+      deleteDir()
+    }
+    }
+  }
 }
