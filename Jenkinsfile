@@ -3,6 +3,16 @@ pipeline{
     agent { label "dev" };
     
     stages{
+        stage("Workspace Cleanup"){
+            steps{
+                  always {
+                    cleanWs()
+                    dir("${env.WORKSPACE}@tmp") {
+                    deleteDir()
+                      }
+                        }    
+        }
+        }
         stage("Code Clone"){
             steps{
                git url: "https://github.com/lit-with-git/two-tier-flask-app.git", branch: "master"
