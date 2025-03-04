@@ -75,7 +75,7 @@ pipeline {
                     disableDeferredWipeout: true,
                     notFailBuild: true,
                     patterns: [[pattern: '.', type: 'INCLUDE'],
-                               [pattern: '.propsfile', type: 'EXCLUDE']]))
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
     //sh "find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +"
         }
     }
