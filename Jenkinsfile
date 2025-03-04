@@ -5,10 +5,10 @@ pipeline{
     stages{
         stage("Workspace Cleanup"){
             steps{
-                  always {
-                    cleanWs()
-                    dir("${env.WORKSPACE}@tmp") {
-                    deleteDir()
+              always {
+                cleanWs()
+                  dir("${env.WORKSPACE}@tmp") {
+                  deleteDir()
                       }
                         }    
         }
