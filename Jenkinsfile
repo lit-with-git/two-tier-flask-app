@@ -64,10 +64,13 @@ pipeline {
             }
         }
                 always {
-                    cleanWs()
-                    dir("${env.WORKSPACE}*") {
-                        deleteDir()
-                    }
-                }
+    cleanWs() // cleans the workspace before doing further steps
+    // Find all files and directories under the workspace
+    def files = findFiles(glob: '**/*') 
+    files.each { file ->
+        // Delete each file or directory found
+        deleteDir(file: file.path)
+    }
+}
             }
         }
