@@ -4,6 +4,13 @@ pipeline {
     }; 
     
     stages {
+        stage("Workspace Cleanup before Build") {
+            steps {
+                always {
+                    cleanWs()
+                }
+            }
+        }
         stage("Code Clone") {
             steps {
                 git url: "https://github.com/lit-with-git/two-tier-flask-app.git", branch: "master"
@@ -11,11 +18,12 @@ pipeline {
         }
         stage("Trivy File System Scan") {
             steps {
-                sh "trivy fs . -o /tmp/scanresults.json"
+                sh "trivy fs . -o scanresults.json"
                //bat "del scanresults.zip"
                //zip zipFile: 'scanresults.zip', archive: false, dir: '/tmp'
             }
         }
+        
         stage("Build") {
             steps {
                 sh "docker build -t two-tier-flask-app ."
@@ -55,7 +63,7 @@ pipeline {
     post {
         success {
             script {
-                emailext attachmentsPattern: '/tmp/scanresults.json', from: 'singhvaibhav032@gmail.com', 
+                emailext attachmentsPattern: 'scanresults.json', from: 'singhvaibhav032@gmail.com', 
                 to: 'singhvaibhav032@gmail.com', 
                 body: 'Build Success', 
                 subject: 'Build Success'
@@ -63,20 +71,15 @@ pipeline {
         }
         failure {
             script {
-                emailext attachmentsPattern: '/tmp/scanresults.json', from: 'singhvaibhav032@gmail.com', 
+                emailext attachmentsPattern: 'scanresults.json', from: 'singhvaibhav032@gmail.com', 
                 to: 'singhvaibhav032@gmail.com', 
                 body: 'Build Failed', 
                 subject: 'Build Failed'
             }
         }
         always {
-    cleanWs(cleanWhenNotBuilt: false,
-                    deleteDirs: true,
-                    disableDeferredWipeout: true,
-                    notFailBuild: true,
-                    patterns: [[pattern: 'demo-*', type: 'INCLUDE'],
-                               [pattern: '.propsfile', type: 'EXCLUDE']])
-    //sh "find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +"
+    cleanWs()
+       sh "find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +"
         }
     }
 }
