@@ -12,6 +12,8 @@ pipeline {
         stage("Trivy File System Scan") {
             steps {
                 sh "trivy fs . -o scanresults.json"
+                bat "del scanresults.zip"
+               zip zipFile: 'scanresults.zip', archive: false, dir: '/tmp'
             }
         }
         stage("Build") {
@@ -57,7 +59,7 @@ pipeline {
     post {
         success {
             script {
-                emailext from: 'singhvaibhav032@gmail.com', 
+                emailext attachmentsPattern: 'scanresults.zip', from: 'singhvaibhav032@gmail.com', 
                 to: 'singhvaibhav032@gmail.com', 
                 body: 'Build Success', 
                 subject: 'Build Success'
@@ -65,7 +67,7 @@ pipeline {
         }
         failure {
             script {
-                emailext from: 'singhvaibhav032@gmail.com', 
+                emailext attachmentsPattern: 'scanresults.zip', from: 'singhvaibhav032@gmail.com', 
                 to: 'singhvaibhav032@gmail.com', 
                 body: 'Build Failed', 
                 subject: 'Build Failed'
