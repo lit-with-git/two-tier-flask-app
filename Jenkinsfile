@@ -70,8 +70,13 @@ pipeline {
             }
         }
         always {
-    cleanWs()
-    sh "find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +"
+    cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']]))
+    //sh "find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +"
         }
     }
 }
