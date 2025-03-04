@@ -19,8 +19,6 @@ pipeline {
         stage("Trivy File System Scan") {
             steps {
                 sh "trivy fs . -o scanresults.json"
-               //bat "del scanresults.zip"
-               //zip zipFile: 'scanresults.zip', archive: false, dir: '/tmp'
             }
         }
         
@@ -52,13 +50,7 @@ pipeline {
                 sh "docker compose up -d --build flask-app"
             }
         }
-
-       // stage("Workspace Cleanup") {
-         //   steps {
-           //   sh "find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +"  // Running your directory deletion command
-             //       }
-               // }
-            }
+    }
 
     post {
         success {
