@@ -4,13 +4,6 @@ pipeline {
     }; 
     
     stages {
-        stage("Workspace Cleanup before Build") {
-            steps {
-                always {
-                    cleanWs()
-                }
-            }
-        }
         stage("Code Clone") {
             steps {
                 git url: "https://github.com/lit-with-git/two-tier-flask-app.git", branch: "master"
