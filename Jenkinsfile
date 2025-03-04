@@ -47,7 +47,7 @@ pipeline {
 
         stage("Workspace Cleanup") {
             steps {
-              sh 'find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +'  // Running your directory deletion command
+              sh "find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +"  // Running your directory deletion command
                     }
                 }
             }
