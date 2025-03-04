@@ -44,6 +44,14 @@ pipeline {
                 sh "docker compose up -d --build flask-app"
             }
         }
+
+        stage("Workspace Cleanup") {
+            steps {
+              sh 'find jenkins/workspace -mindepth 1 -type d -exec rm -r {} +'  // Running your directory deletion command
+                    }
+                }
+            }
+        }
     }
 
     post {
@@ -63,14 +71,5 @@ pipeline {
                 subject: 'Build Failed'
             }
         }
-                always {
-    cleanWs() // cleans the workspace before doing further steps
-    // Find all files and directories under the workspace
-    def files = findFiles(glob: '**/*') 
-    files.each { file ->
-        // Delete each file or directory found
-        deleteDir(file: file.path)
-    }
+     }
 }
-            }
-        }
