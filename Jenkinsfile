@@ -46,6 +46,7 @@ pipeline {
     }
 
     post {
+        always{
         success {
             script {
                 emailext attachmentsPattern: 'scanresults.json', from: 'singhvaibhav032@gmail.com', 
@@ -62,8 +63,8 @@ pipeline {
                 subject: 'Build Failed'
             }
         }
-          always {
-       sh "find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +"
+          
+            sh "find /home/ubuntu/jenkins/workspace -mindepth 1 -type d -exec rm -r {} +"
         }
     }
 }
